@@ -18,3 +18,9 @@ StudyFast is a mobile application that provides a chat interface with AI teacher
 - `server/`: API server for secure OpenAI API calls
 
 Built by Ahmet Dedeler
+
+Some screenshots:
+
+![image](https://github.com/user-attachments/assets/0afb15c5-e1e9-4e3b-b208-b553abb474e1) ![image](https://github.com/user-attachments/assets/4a77fca4-0eca-4d7f-b971-27e19f9faf17) ![image](https://github.com/user-attachments/assets/8a65c072-cfe2-44b9-bb17-278a289b6e34)
+
+
