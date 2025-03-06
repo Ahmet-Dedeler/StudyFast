@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PERSONAS, Persona } from './personas';
 
 // API URL for the server
-const API_URL = 'https://studyfast-api.vercel.app/api/chat';
+const API_URL = 'YOUR_API_URL (SERVER FOLDER)';
 
 // Add a test mode flag for debugging
 const TEST_MODE = false;
