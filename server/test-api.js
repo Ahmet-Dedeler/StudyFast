@@ -23,7 +23,7 @@ async function testStatusEndpoint() {
     console.log('Response Status:', response.status);
     console.log('Response Headers:');
     
-    // Log all headers
+    // Log all headers and values
     const headers = {};
     response.headers.forEach((value, name) => {
       console.log(`  ${name}: ${value}`);
