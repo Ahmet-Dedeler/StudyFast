@@ -1,0 +1,26 @@
+{
+  "name": "studyfast-api",
+  "version": "1.0.0",
+  "description": "StudyFast API Server",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel deploy",
+    "test": "node test-api.js"
+  },
+  "dependencies": {
+    "@vercel/node": "^3.0.24",
+    "openai": "^4.28.0",
+    "node-fetch": "^2.6.9",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/node": "^20.11.24",
+    "typescript": "^5.3.3",
+    "vercel": "^33.5.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+} 

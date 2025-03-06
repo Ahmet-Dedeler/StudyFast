@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyFast API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        textarea {
+            min-height: 100px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .response {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fff;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+        .error {
+            color: #d32f2f;
+            background-color: #ffebee;
+            border: 1px solid #ffcdd2;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0,0,0,.3);
+            border-radius: 50%;
+            border-top-color: #4CAF50;
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <h1>StudyFast API Test</h1>
+    
+    <div class="section">
+        <h2>Test Server Status</h2>
+        <label for="test-url">Test URL:</label>
+        <input type="text" id="test-url" value="https://studyfast-api.vercel.app/api/test">
+        
+        <button id="test-status-btn">Check Server Status</button>
+        <span id="test-loading" class="loading" style="display: none;"></span>
+        
+        <div id="test-response" class="response" style="display: none;"></div>
+    </div>
+    
+    <div class="section">
+        <h2>Test Chat API</h2>
+        <label for="api-url">API URL:</label>
+        <input type="text" id="api-url" value="https://studyfast-api.vercel.app/api/chat">
+        
+        <label for="message">Message:</label>
+        <textarea id="message">Hello, can you help me study?</textarea>
+        
+        <label for="model-id">Model ID:</label>
+        <input type="text" id="model-id" value="gpt-4o">
+        
+        <label for="system-prompt">System Prompt:</label>
+        <textarea id="system-prompt">You are a helpful AI assistant.</textarea>
+        
+        <button id="send-btn">Send Request</button>
+        <span id="chat-loading" class="loading" style="display: none;"></span>
+        
+        <div id="chat-response" class="response" style="display: none;"></div>
+    </div>
+    
+    <script>
+        // Test Status Endpoint
+        document.getElementById('test-status-btn').addEventListener('click', async () => {
+            const testUrl = document.getElementById('test-url').value;
+            const loadingEl = document.getElementById('test-loading');
+            const responseEl = document.getElementById('test-response');
+            
+            loadingEl.style.display = 'inline-block';
+            responseEl.style.display = 'none';
+            responseEl.className = 'response';
+            
+            try {
+                const response = await fetch(testUrl);
+                const contentType = response.headers.get('content-type');
+                
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    responseEl.textContent = JSON.stringify(data, null, 2);
+                } else {
+                    const text = await response.text();
+                    responseEl.textContent = `Status: ${response.status}\n\n${text}`;
+                }
+                
+                if (!response.ok) {
+                    responseEl.className = 'response error';
+                }
+            } catch (error) {
+                responseEl.textContent = `Error: ${error.message}`;
+                responseEl.className = 'response error';
+            } finally {
+                loadingEl.style.display = 'none';
+                responseEl.style.display = 'block';
+            }
+        });
+        
+        // Test Chat API
+        document.getElementById('send-btn').addEventListener('click', async () => {
+            const apiUrl = document.getElementById('api-url').value;
+            const message = document.getElementById('message').value;
+            const modelId = document.getElementById('model-id').value;
+            const systemPrompt = document.getElementById('system-prompt').value;
+            
+            const loadingEl = document.getElementById('chat-loading');
+            const responseEl = document.getElementById('chat-response');
+            
+            loadingEl.style.display = 'inline-block';
+            responseEl.style.display = 'none';
+            responseEl.className = 'response';
+            
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        message,
+                        modelId,
+                        systemPrompt,
+                    }),
+                });
+                
+                const contentType = response.headers.get('content-type');
+                
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    responseEl.textContent = JSON.stringify(data, null, 2);
+                } else {
+                    const text = await response.text();
+                    responseEl.textContent = `Status: ${response.status}\n\n${text}`;
+                }
+                
+                if (!response.ok) {
+                    responseEl.className = 'response error';
+                }
+            } catch (error) {
+                responseEl.textContent = `Error: ${error.message}`;
+                responseEl.className = 'response error';
+            } finally {
+                loadingEl.style.display = 'none';
+                responseEl.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html> 

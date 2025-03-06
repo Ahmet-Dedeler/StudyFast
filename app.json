@@ -1,0 +1,36 @@
+{
+  "expo": {
+    "name": "StudyFast",
+    "slug": "studyfast",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/studyfast.png",
+    "scheme": "studyfast",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ahmetdeler.studyfast"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/studyfast.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.ahmetdeler.studyfast"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "single",
+      "favicon": "./assets/images/studyfast.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      "expo-secure-store"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
